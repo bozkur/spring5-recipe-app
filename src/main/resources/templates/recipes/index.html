@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.tyhmeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes List Pages</title>
+</head>
+<body>
+
+<h2 th:text="'List of Recipes!'">List of Recipes</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Description</th>
+        <th>Serving time</th>
+        <th>Cook time</th>
+        <th>Image</th>
+        <th>Directions</th>
+        <th>Difficulty</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="recipe : ${recipes}">
+        <td th:text="${recipe.description}"></td>
+        <td th:text="${recipe.cookTime}"></td>
+        <td th:text="${recipe.prepTime}"></td>
+        <td><img width="100" th:src="@{'data:image/jpeg;base64,'+${recipe.base64Image}}"/>
+        </td>
+        <td th:utext="${recipe.directions}"></td>
+        <td th:text="${recipe.difficulty}"/>
+        <td>
+            <ol>
+                <!--<li th:text="${ingredient.amount} + ' ' + ${ingredient?.uom.description} + ' ' + ${ingredient.description}"></li>-->
+                <li th:each="ingredient : ${recipe.ingredients}" th:text="${ingredient.amount} + ' ' + (${ingredient.uom != null}? ${ingredient.uom.description}:'') + ' ' + ${ingredient.description}"></li>
+            </ol>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
