@@ -15,24 +15,19 @@ import java.util.Optional;
 @Slf4j
 @Controller
 public class IndexController {
-
-    private CategoryRepository categoryRepository;
-    private UnitOfMeasureRepository unitOfMeasureRepository;
     private RecipeService recipeService;
 
 
-    public IndexController(CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository, RecipeService recipeService) {
-        this.categoryRepository = categoryRepository;
-        this.unitOfMeasureRepository = unitOfMeasureRepository;
+    public IndexController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
 
     @RequestMapping("/")
     public String index(Model model) {
-        Optional<Category> category = categoryRepository.findByCategoryName("Mexican");
+        /*Optional<Category> category = categoryRepository.findByCategoryName("Mexican");
         Optional<UnitOfMeasure> uom = unitOfMeasureRepository.findByDescription("Pinch");
         log.info("Found category's id: {}", category.get().getId());
-        log.info("Found unit of measure's id:{}", uom.get().getId());
+        log.info("Found unit of measure's id:{}", uom.get().getId());*/
         model.addAttribute("recipes", recipeService.getRecipes());
         return "index";
     }

@@ -34,6 +34,9 @@ public class RecipeServiceImpl implements RecipeService{
     private String getBase64Image(Recipe recipe) {
 
         Byte [] image = recipe.getImage();
+        if (image == null) {
+            return null;
+        }
         byte[] bytes = new byte[image.length];
         for (int i=0; i<bytes.length; i++) {
             bytes[i] = image[i];
