@@ -9,3 +9,4 @@ insert into unit_of_measure (description) values ('Pinch');
 insert into unit_of_measure (description) values ('Ounce');
 insert into unit_of_measure (description) values ('Clove');
 insert into unit_of_measure (description) values ('Pint');
+insert into unit_of_measure (description) values ('Each');

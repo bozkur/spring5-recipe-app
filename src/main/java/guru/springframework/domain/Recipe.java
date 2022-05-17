@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -26,7 +27,7 @@ public class Recipe {
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients = new HashSet<>();
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
     @ManyToMany
@@ -35,5 +36,11 @@ public class Recipe {
 
     @Transient
     private String base64Image;
+
+    public Recipe addIngredient(Ingredient ingredient) {
+        ingredient.setRecipe(this);
+        this.ingredients.add(ingredient);
+        return this;
+    }
 
 }

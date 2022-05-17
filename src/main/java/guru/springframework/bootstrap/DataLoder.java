@@ -38,13 +38,14 @@ public class DataLoder implements CommandLineRunner {
         UnitOfMeasure tablespoon = unitOfMeasureRepository.findByDescription("Tablespoon").get();
         UnitOfMeasure teaspoon = unitOfMeasureRepository.findByDescription("Teaspoon").get();
         UnitOfMeasure pinch = unitOfMeasureRepository.findByDescription("Pinch").get();
-        Recipe perfectGuacomole = getPerfectGuacomole(tablespoon, teaspoon, pinch);
-        Recipe spicyChickenTacos = getSpicyChickenTacos(tablespoon, teaspoon, pinch);
+        UnitOfMeasure each = unitOfMeasureRepository.findByDescription("Each").get();
+        Recipe perfectGuacomole = getPerfectGuacomole(tablespoon, teaspoon, pinch, each);
+        Recipe spicyChickenTacos = getSpicyChickenTacos(tablespoon, teaspoon, pinch, each);
         recipeRepository.save(perfectGuacomole);
         recipeRepository.save(spicyChickenTacos);
     }
 
-    private Recipe getPerfectGuacomole(UnitOfMeasure tablespoon, UnitOfMeasure teaspoon, UnitOfMeasure pinch) throws Exception {
+    private Recipe getPerfectGuacomole(UnitOfMeasure tablespoon, UnitOfMeasure teaspoon, UnitOfMeasure pinch, UnitOfMeasure each) throws Exception {
         Recipe perfectGuacomole = new Recipe();
         perfectGuacomole.setDescription("Perfect Guacomole");
         Set<Category> categories = new HashSet<>();
@@ -62,6 +63,7 @@ public class DataLoder implements CommandLineRunner {
         Ingredient avocado = new Ingredient();
         avocado.setDescription("Ripe avocados");
         avocado.setAmount(BigDecimal.valueOf(2));
+        avocado.setUom(each);
 
         Ingredient salt = new Ingredient();
         salt.setDescription("salt, plus more to taste");
@@ -81,6 +83,7 @@ public class DataLoder implements CommandLineRunner {
         Ingredient chilis = new Ingredient();
         chilis.setDescription("serrano (or jalapeño) chilis, stems and seeds removed, minced");
         chilis.setAmount(BigDecimal.valueOf(1));
+        chilis.setUom(each);
 
         Ingredient cilantro = new Ingredient();
         cilantro.setDescription("cilantro (leaves and tender stems), finely chopped");
@@ -95,14 +98,17 @@ public class DataLoder implements CommandLineRunner {
         Ingredient tomato = new Ingredient();
         tomato.setDescription("ripe tomato, chopped (optional)");
         tomato.setAmount(BigDecimal.valueOf(0.5));
+        chilis.setUom(each);
 
         Ingredient radish = new Ingredient();
         radish.setDescription("Red radish or jicama slices for garnish (optional)");
         radish.setAmount(BigDecimal.ONE);
+        chilis.setUom(each);
 
         Ingredient tortillaChips = new Ingredient();
         tortillaChips.setDescription("Tortilla chips, to serve");
         tortillaChips.setAmount(BigDecimal.ONE);
+        chilis.setUom(each);
 
         setIngredients(perfectGuacomole, avocado, salt, lime, onion, chilis, cilantro, blackPepper, tomato, radish, tortillaChips);
         Notes notes = new Notes();
@@ -141,7 +147,7 @@ public class DataLoder implements CommandLineRunner {
         recipe.setIngredients(ingredientSet);
     }
 
-    private Recipe getSpicyChickenTacos(UnitOfMeasure tablespoon, UnitOfMeasure teaspoon, UnitOfMeasure pinch) throws Exception {
+    private Recipe getSpicyChickenTacos(UnitOfMeasure tablespoon, UnitOfMeasure teaspoon, UnitOfMeasure pinch, UnitOfMeasure each) throws Exception {
         Recipe spicyChickenTaco = new Recipe();
         spicyChickenTaco.setDescription("Spicy Grilled Chicken Tacos");
         Set<Category> categories = new HashSet<>();
@@ -172,17 +178,17 @@ public class DataLoder implements CommandLineRunner {
         Ingredient orange = createIngredient(1, tablespoon, "finely grated orange zest ");
         Ingredient orangeJuice = createIngredient(3, tablespoon, " fresh-squeezed orange juice");
         Ingredient oliveOil = createIngredient(2, tablespoon, "olive oil");
-        Ingredient chickenThighs = createIngredient(6, null, "boneless chicken thighs");
-        Ingredient tortillas = createIngredient(8, null, "small corn tortillas");
+        Ingredient chickenThighs = createIngredient(6, each, "boneless chicken thighs");
+        Ingredient tortillas = createIngredient(8, each, "small corn tortillas");
         Ingredient arugula = createIngredient(3, cup, "packed baby arugula");
-        Ingredient avocado = createIngredient(2, null, "medium ripe avocados, sliced");
-        Ingredient radish = createIngredient(4, null, "radishes, thinly sliced");
+        Ingredient avocado = createIngredient(2, each, "medium ripe avocados, sliced");
+        Ingredient radish = createIngredient(4, each, "radishes, thinly sliced");
         Ingredient cherryTomato = createIngredient(0.5, pint, "cherry tomatoes, halved");
-        Ingredient onion = createIngredient(0.25, null, "red onion, thinly sliced ");
-        Ingredient cilantro = createIngredient(1, null, "Roughly chopped cilantro");
+        Ingredient onion = createIngredient(0.25, each, "red onion, thinly sliced ");
+        Ingredient cilantro = createIngredient(1, each, "Roughly chopped cilantro");
         Ingredient cream = createIngredient(0.5, cup, "cup sour cream");
         Ingredient milk = createIngredient(0.25, cup, "milk");
-        Ingredient lime = createIngredient(1, null, "lime, cut into wedges");
+        Ingredient lime = createIngredient(1, each, "lime, cut into wedges");
 
         setIngredients(spicyChickenTaco, chiliPowder, driedCumin, driedOregano, sugar, salt, garlic,
                 orange, orangeJuice, oliveOil, chickenThighs, tortillas, arugula, avocado, radish, cherryTomato,
