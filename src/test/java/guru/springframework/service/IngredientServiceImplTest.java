@@ -144,9 +144,7 @@ class IngredientServiceImplTest {
 
         ingredientService.delete(recipe.getId(), ingredient.getId());
 
-        ArgumentCaptor<Recipe> recipeCaptor = ArgumentCaptor.forClass(Recipe.class);
-        verify(recipeRepository, times(1)).save(recipeCaptor.capture());
-        assertThat(recipeCaptor.getValue().getIngredients(), Matchers.empty());
+        verify(ingredientRepository).deleteById(ingredient.getId());
 
     }
 }
