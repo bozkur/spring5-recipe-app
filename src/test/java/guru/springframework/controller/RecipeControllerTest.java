@@ -30,6 +30,7 @@ class RecipeControllerTest {
         MockitoAnnotations.initMocks(this);
         recipeController = new RecipeController(recipeService);
         mvc = MockMvcBuilders.standaloneSetup(recipeController)
+                .setControllerAdvice(ExceptionControllerAdvice.class)
                 .build();
     }
 
@@ -90,7 +91,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void shouldSend408WhenNumberFormatExceptionOccurs() throws Exception {
+    void shouldSend400WhenNumberFormatExceptionOccurs() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/recipe/asd/show"))
                 .andExpect(status().isBadRequest())
                 .andExpect(view().name("errors/400error"));

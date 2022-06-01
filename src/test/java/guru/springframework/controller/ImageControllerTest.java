@@ -39,7 +39,9 @@ public class ImageControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         controller = new ImageController(recipeService,imageService);
-        mvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(ExceptionControllerAdvice.class)
+                .build();
     }
 
     @Test
@@ -85,4 +87,9 @@ public class ImageControllerTest {
         MatcherAssert.assertThat(imageBytes, Matchers.equalTo(content));
     }
 
+    @Test
+    void shouldGoToErroPageWhenNumberFormatExceptionOccurs() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/recipe/asd/image"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }
