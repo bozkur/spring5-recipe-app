@@ -64,11 +64,14 @@ class RecipeControllerTest {
     @Test
     void shouldSaveRecipeCommand() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setDirections("Directions");
+        recipeCommand.setUrl("http://example.com");
+        recipeCommand.setDescription("Description");
         RecipeCommand savedRecipeCommand = new RecipeCommand();
         savedRecipeCommand.setId(15L);
         when(recipeService.saveRecipeCommand(ArgumentMatchers.any())).thenReturn(savedRecipeCommand);
         String resultUrl = "redirect:/recipe/"+savedRecipeCommand.getId() + "/show";
-        mvc.perform(MockMvcRequestBuilders.post("/recipe", recipeCommand))
+        mvc.perform(MockMvcRequestBuilders.post("/recipe").flashAttr("recipe", recipeCommand))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name(resultUrl));
     }
